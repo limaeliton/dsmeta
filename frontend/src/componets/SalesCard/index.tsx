@@ -21,12 +21,20 @@ function SalesCard() {
 
     const [sales, setSales] = useState<Sale[]>([]);
 
+    // useEffect React Huk = quando mudar um dado executa essa função.
+    // [minDate, maxDate] vai mudar sempre que atualizar as datas.
     useEffect(() => {
-        axios.get(`${BASE_URL}/sales`)
+
+            const dmin = minDate.toISOString().slice(0, 10);
+            const dmax = maxDate.toISOString().slice(0, 10);
+
+            console.log(dmin);
+
+        axios.get(`${BASE_URL}/sales?minDate=${dmin}&maxDate=${dmax}`)
             .then((response) => {
                 setSales(response.data.content); // atualizar o useState com o valor que retornout da API.
             })
-    }, [])
+    }, [minDate, maxDate]);
 
     // .map() e para percorrer a lista e faz uma operação com cada element da lista.
     return (
